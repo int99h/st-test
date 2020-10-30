@@ -1,4 +1,4 @@
-MP Test Task
+Test Task
 =
 
 Setup env:

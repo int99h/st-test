@@ -1,0 +1,42 @@
+parameters:
+    storage.analytics.file.path: '%env(STORAGE_ANALYTICS_FILE_PATH)%'
+    storage.users.file.path: '%env(STORAGE_USERS_FILE_PATH)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    # internal
+    App\ArgumentResolver\:
+        resource: '../src/ArgumentResolver/*'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+    App\Controller\:
+        resource: '../src/Controller/*'
+        tags: [ 'controller.service_arguments' ]
+    App\EventSubscriber\:
+        resource: '../src/EventSubscriber/*'
+        tags: [ 'kernel.event_subscriber' ]
+    App\Normalizer\:
+        resource: '../src/Normalizer/*'
+        tags: [ 'serializer.normalizer' ]
+    App\Service\:
+        resource: '../src/Service/*'
+    App\Manager\:
+        resource: '../src/Manager/*'
+    App\Security\:
+        resource: '../src/Security/*'
+    App\DataStructure\Request\:
+        resource: '../src/DataStructure/Request/*'
+
+    # storage
+    App\Provider\Storage\File\UserStorage:
+        arguments:
+            - '%storage.users.file.path%'
+    App\Provider\Storage\File\AnalyticsStorage:
+        arguments:
+            - '%storage.analytics.file.path%'
+
+    # external
+#    SocialTech\SlowStorage: ~
+#    SocialTech\StorageInterface: '@SocialTech\SlowStorage'

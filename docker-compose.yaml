@@ -1,0 +1,12 @@
+version: '3'
+services:
+  app:
+    build: .docker/app
+    container_name: app
+    restart: on-failure
+    volumes:
+      - ./:/var/www/app:cached
+    env_file:
+      - ./.env
+    ports:
+      - "127.0.0.1:80:80"
